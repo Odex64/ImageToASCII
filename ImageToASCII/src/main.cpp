@@ -73,11 +73,13 @@ sf::Image resize_image(sf::Image& originalImage, uint32_t targetWidth)
     uint32_t max_dim{ size.x >= size.y ? size.x : size.y };
     float scale{ static_cast<float>(targetWidth) / max_dim };
 
-    if (size.x >= size.y) {
+    if (size.x >= size.y)
+    {
         newSize.x = targetWidth;
         newSize.y = static_cast<uint32_t>(size.y * scale);
     }
-    else {
+    else
+    {
         newSize.y = targetWidth;
         newSize.x = static_cast<uint32_t>(size.x * scale);
     }
@@ -109,9 +111,8 @@ bool load_image(std::string& path)
             std::cin >> width;
         } while (width > image.getSize().x);
 
-        if (width != 0) {
+        if (width != 0)
             image = resize_image(image, width);
-        }
 
         bool mode;
         std::cout << "Black(0), White(1): ";
@@ -127,11 +128,11 @@ int main(int argc, char* argv[])
     std::locale::global(std::locale(""));
     std::string path;
 
-    if (argc == 2) {
+    if (argc == 2)
+    {
         path = argv[1];
-        if (load_image(path)) {
+        if (load_image(path))
             return 0;
-        }
     }
     else
     {
