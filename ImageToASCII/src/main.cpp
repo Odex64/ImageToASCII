@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Image.hpp>
 #include <format>
 
-std::wstring get_char(unsigned char l, bool mode)
+std::wstring get_char(uint8_t l, bool mode)
 {
     if (l >= 210)
         return mode == 1 ? L"██" : L"  ";
@@ -27,7 +27,7 @@ double inv_gam_sRGB(int ic)
         return pow(((c + 0.055) / (1.055)), 2.4);
 }
 
-unsigned char gam_sRGB(double v)
+uint8_t gam_sRGB(double v)
 {
     if (v <= 0.0031308)
         v *= 12.92;
@@ -36,7 +36,7 @@ unsigned char gam_sRGB(double v)
     return int(v * 255 + 0.5);
 }
 
-unsigned char get_luminance(int r, int g, int b)
+uint8_t get_luminance(uint8_t r, uint8_t g, uint8_t b)
 {
     return gam_sRGB(0.212655 * inv_gam_sRGB(r) + 0.715158 * inv_gam_sRGB(g) + 0.072187 * inv_gam_sRGB(b));
 }
@@ -59,7 +59,10 @@ void asciify(sf::Image& image, std::string& path, bool mode)
         for (uint32_t x{ 0 }; x < image.getSize().x; x++)
         {
             sf::Color color = image.getPixel(x, y);
-            textFile << get_char(get_luminance(color.r, color.g, color.b), mode);
+            if (color.a < 20)
+                textFile << (mode == 0 ? L"  " : L"██");
+            else
+                textFile << get_char(get_luminance(color.r, color.g, color.b), mode);
         }
         textFile << std::endl;
     }
