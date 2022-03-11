@@ -18,27 +18,9 @@ std::wstring get_char(uint8_t l, bool mode)
     return {};
 }
 
-double inv_gam_sRGB(int ic)
-{
-    double c{ ic / 255.0 };
-    if (c <= 0.04045)
-        return c / 12.92;
-    else
-        return pow(((c + 0.055) / (1.055)), 2.4);
-}
-
-uint8_t gam_sRGB(double v)
-{
-    if (v <= 0.0031308)
-        v *= 12.92;
-    else
-        v = 1.055 * pow(v, 1.0 / 2.4) - 0.055;
-    return int(v * 255 + 0.5);
-}
-
 uint8_t get_luminance(uint8_t r, uint8_t g, uint8_t b)
 {
-    return gam_sRGB(0.212655 * inv_gam_sRGB(r) + 0.715158 * inv_gam_sRGB(g) + 0.072187 * inv_gam_sRGB(b));
+    return static_cast<uint8_t>((0.2126 * r) + (0.7152 * g) + (0.0722 * b));
 }
 
 size_t last_index(std::string& str, char x)
