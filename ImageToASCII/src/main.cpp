@@ -27,7 +27,7 @@ double inv_gam_sRGB(int ic)
         return pow(((c + 0.055) / (1.055)), 2.4);
 }
 
-int gam_sRGB(double v)
+unsigned char gam_sRGB(double v)
 {
     if (v <= 0.0031308)
         v *= 12.92;
